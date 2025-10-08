@@ -8,6 +8,8 @@ from rest_framework.response import Response
 from base.models import Product, Order, OrderItem, ShippingAddress
 from base.serializers import ProductSerializer, OrderSerializer
 
+from datetime import datetime
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def addOrderItems(request):
@@ -73,4 +75,17 @@ def getMyOrders(request):
     orders = user.order_set.all()
     serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def updateOrderToPaid(request, pk):
+    order = Order.objects.get(_id=pk)
+    order.isPaid = True
+    order.paidAt = datetime.now()
+    order.save()
+    
+    return Response('Order was paid.')
+
+
 
