@@ -6,7 +6,7 @@ function Paginate({ page, pages, keyword = "", isAdmin = false }) {
   if (keyword) {
     keyword = keyword.split("?keyword=")[1].split("&")[0];
   }
-  console.log("KEYWORD:", keyword);
+
   return (
     pages > 1 && (
       <Pagination>
