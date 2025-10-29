@@ -19,3 +19,9 @@ h3 {
 .rating span {
   margin: 0.1rem;
 }
+
+.active-page .page-link {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}

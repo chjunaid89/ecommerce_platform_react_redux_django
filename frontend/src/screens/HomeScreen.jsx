@@ -6,14 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../actions/productActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import Paginate from "../components/Paginate";
 
 function HomeScreen() {
   const dispatch = useDispatch();
   const location = useLocation();
+
   const params = new URLSearchParams(location.search);
 
   const productList = useSelector((state) => state.productList);
-  const { loading, error, products } = productList;
+  const { loading, error, products, page, pages } = productList;
 
   let keyword = location.search;
 
@@ -29,18 +31,21 @@ function HomeScreen() {
       ) : error ? (
         <Message variant={"danger"}>{error}</Message>
       ) : (
-        <Row>
-          {products.length === 0 && (
-            <Message variant="info">
-              No results found for '{params.get("keyword")}'
-            </Message>
-          )}
-          {products.map((product) => (
-            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-              <Product product={product} />
-            </Col>
-          ))}
-        </Row>
+        <div>
+          <Row>
+            {products.length === 0 && (
+              <Message variant="info">
+                No results found for '{params.get("keyword")}'
+              </Message>
+            )}
+            {products.map((product) => (
+              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                <Product product={product} />
+              </Col>
+            ))}
+          </Row>
+          <Paginate page={page} pages={pages} keyword={keyword} />
+        </div>
       )}
     </div>
   );
